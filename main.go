@@ -59,12 +59,12 @@ func mainErr() error {
 	}
 	printer, err := opts.PrintFlags.ToPrinter()
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create printer from kubectl config: %s", err)
 	}
 	opts.PrintObject = printer.PrintObj
 
 	if err := opts.Run(); err != nil {
-		return err
+		return fmt.Errorf("failed to run the equivalent of `kubectl config view` command: %s", err)
 	}
 	if cmdStdErr := errBuf.String(); cmdStdErr != "" {
 		return fmt.Errorf("stderr of this command was not empty: %s", cmdStdErr)
@@ -72,12 +72,12 @@ func mainErr() error {
 
 	file, err := os.CreateTemp("", "kubeconfig-*")
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create temporary file: %s", err)
 	}
 	defer file.Close()
 
 	if _, err := file.Write(buf.Bytes()); err != nil {
-		return err
+		return fmt.Errorf("failed to write to file %q: %s", file.Name(), err)
 	}
 
 	msg := fmt.Sprintf("export KUBECONFIG=%q", file.Name())
