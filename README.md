@@ -25,3 +25,7 @@ What happened under the hood:
     is copied into your clipboard.
 
 You can just paste that command into your terminal to get "scoped" kube context. I used it for example when developing multi-cluster Kubernetes Operators.
+
+## Rust version
+
+[extkube-rs](https://github.com/aerfio/extkube/tree/extkube-rs) git branch of this repository holds Rust implementation of this CLI tool, created for learning purposes.
