@@ -4,7 +4,10 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"maps"
 	"os"
+	"slices"
+	"strings"
 
 	"github.com/fatih/color"
 	"github.com/spf13/pflag"
@@ -29,12 +32,24 @@ func mainErr() error {
 
 	context := ""
 	help := false
+	list := false
 	pflag.StringVarP(&context, "context", "c", "", "kube context to extract")
 	pflag.BoolVarP(&help, "help", "h", false, "prints help message")
+	pflag.BoolVarP(&list, "list", "l", false, "list available k8s contexts. Equivalent to 'kubectl config get-contexts'")
 	pflag.Parse()
 
 	if help {
 		pflag.Usage()
+		return nil
+	}
+
+	if list {
+		cfg, err := clientcmd.NewDefaultClientConfigLoadingRules().GetStartingConfig()
+		if err != nil {
+			return err
+		}
+
+		fmt.Println(strings.Join(slices.Sorted(maps.Keys(cfg.Contexts)), "\n"))
 		return nil
 	}
 
@@ -70,7 +85,7 @@ func mainErr() error {
 		return fmt.Errorf("stderr of this command was not empty: %s", cmdStdErr)
 	}
 
-	file, err := os.CreateTemp("", "kubeconfig-*")
+	file, err := os.CreateTemp("", "kubeconfig-*.yaml")
 	if err != nil {
 		return fmt.Errorf("failed to create temporary file: %s", err)
 	}
