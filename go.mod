@@ -61,7 +61,7 @@ require (
 	github.com/xlab/treeprint v1.2.0 // indirect
 	go.starlark.net v0.0.0-20230525235612-a134d8f9ddca // indirect
 	golang.org/x/exp/shiny v0.0.0-20230905200255-921286631fa9 // indirect
-	golang.org/x/image v0.12.0 // indirect
+	golang.org/x/image v0.20.0 // indirect
 	golang.org/x/mobile v0.0.0-20230922142353-e2f452493d57 // indirect
 	golang.org/x/net v0.29.0 // indirect
 	golang.org/x/oauth2 v0.23.0 // indirect
